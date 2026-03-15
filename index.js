@@ -4,7 +4,7 @@ const startGame = (() =>{
         for(let i=0; i<9; i++){
             const square = document.createElement("div");
             const iconHolder = document.createElement("img");
-            iconHolder.classList.add(".icon");
+            iconHolder.classList.add("icon");
             square.append(iconHolder);
             square.classList.add("square");
             square.id = i;
