@@ -23,6 +23,7 @@ const startGame = (() =>{
                     }
                 }
                 turnManager.findTurn();
+                turnManager.updateTurnVisual();
                 //console.log(gameLogic.getGamePad());
                 
             }, {once: true});
@@ -59,6 +60,7 @@ const gamePlayers = (()=>{
 
 
 const turnManager = (() =>{
+    const turnText = document.querySelectorAll(".turnText");
     let currentTurn = gamePlayers.Player1;
     const findTurn = () =>{
         if(currentTurn == gamePlayers.Player1){
@@ -69,7 +71,18 @@ const turnManager = (() =>{
         }
     }
     const getCurrentTurn = () => currentTurn;
-    return{findTurn, getCurrentTurn};
+
+    const updateTurnVisual = ()=>{
+        turnText.forEach((turnIcon)=>{
+            if(turnIcon.classList.contains("highlightTurn")){
+                turnIcon.classList.remove("highlightTurn");
+            }
+            else{
+                turnIcon.classList.add("highlightTurn");
+            }
+        })
+    }
+    return{findTurn, getCurrentTurn, updateTurnVisual};
 })();
 
 const boardManager = (()=>{
@@ -87,6 +100,7 @@ const boardManager = (()=>{
             case "2,4,6": line.classList.add("right-diag"); break;
                 
         }
+
     }
     return{drawWinLine}
 })();
