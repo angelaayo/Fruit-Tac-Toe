@@ -34,6 +34,22 @@ const startGame = (() =>{
     return{generateBoard};
 })();
 
+const selectionVisual = (()=>{
+    const PlayerBtn = document.querySelectorAll(".choiceCircle");
+    let selected = null;
+    PlayerBtn.forEach((btn)=>{
+        btn.addEventListener("click", ()=>{
+            const sibling = btn.nextElementSibling || btn.previousElementSibling;
+            btn.classList.add("highlight");
+            selected = btn.textContent;
+            sibling.classList.remove("highlight");
+        })
+    })
+    const getSelected = ()=> selected;
+
+    return{selected};
+})();
+
 function Player(name){
     let icon = null;
     const chooseIcon = (userChoice) =>{
@@ -74,11 +90,11 @@ const turnManager = (() =>{
 
     const updateTurnVisual = ()=>{
         turnText.forEach((turnIcon)=>{
-            if(turnIcon.classList.contains("highlightTurn")){
-                turnIcon.classList.remove("highlightTurn");
+            if(turnIcon.classList.contains("highlight")){
+                turnIcon.classList.remove("highlight");
             }
             else{
-                turnIcon.classList.add("highlightTurn");
+                turnIcon.classList.add("highlight");
             }
         })
     }
