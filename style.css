@@ -1,13 +1,67 @@
-
-
-#outerContainer{
+.secondContainer, .outerContainer{
     border: 1px solid blue;
+    margin: 0 auto;
+    width: 80%;
+    padding: 1rem;
+}
+
+
+.selectionContainer{
+    border: 1px solid red;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 4rem;
+}
+.playerBox{
+    border: 2px solid green;
+    text-align: center;
+    padding: 0.5rem 0;
+}
+.iconImg{
+    width: 6rem;
+    height: 6rem;
+    border: 2px solid pink;
+    padding: 1rem;
+}
+.playerTxt{
+    border-top: 1px solid red;
+    margin-top: 1rem;
+    padding-top: 0.6rem;
+}
+.vsText{
+    text-align: center;
+}
+.choiceContainer{
+    border: 1px solid red;
+    grid-column: 1/4;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.7rem;
+    justify-self: center;
+    gap: 0.4rem;
+}
+.circleContainer{
+    display: flex;
+    padding: 0.5rem 1rem;
+    gap: 0.8rem;
+}
+.choiceCircle{
+    border: 1px solid blue;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+}
+.outerContainer{
     display: grid;
     grid-template-rows: auto auto;
     grid-template-columns: 1fr 3fr 1fr;
-    max-width: 80%;
-    margin: 0 auto;
-    padding: 1rem;
+}
+
+.hideDisplay{
+    display: none;
 }
 
 #gameGrid{
@@ -16,6 +70,7 @@
     grid-template: repeat(3, 10rem) / repeat(3, 1fr);
     gap: 1rem;
     padding: 1rem;
+    border: 3px solid red;
 }
 
 #gridContainer{
@@ -83,7 +138,7 @@
 
 
 @media (max-width: 1240px){
-    #outerContainer{
+    .outerContainer{
         max-width: 100%;
     }
 }
@@ -92,7 +147,8 @@
     #leftSideBar, #rightSideBar{
         display: none;
     }
-    #outerContainer{
+    .outerContainer{
         grid-template-columns: 1fr;
     }
+    
 }
