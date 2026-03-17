@@ -76,7 +76,7 @@ const gameManager = (()=>{
     const Player1 = Player("player1");
     const human = Player("human");
     const bot = Player("bot");
-    let Player2 = null;
+    let Player2 = human;
     bot.chooseIcon("moon.png");
     Player1.chooseIcon("heart.png");
     human.chooseIcon("star.png");
@@ -91,6 +91,8 @@ const gameManager = (()=>{
     }
 
     const getPlayer2 = ()=> Player2;
+
+
 
 
     return{Player1, updatePlayer2, getPlayer2};
