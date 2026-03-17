@@ -36,18 +36,21 @@ const startGame = (() =>{
 
 const selectionVisual = (()=>{
     const PlayerBtn = document.querySelectorAll(".choiceCircle");
+    const secondIcon = document.querySelector("#player2Img");
     let selected = null;
     PlayerBtn.forEach((btn)=>{
         btn.addEventListener("click", ()=>{
             const sibling = btn.nextElementSibling || btn.previousElementSibling;
             btn.classList.add("highlight");
             selected = btn.textContent;
+            gameManager.updatePlayer2();
             sibling.classList.remove("highlight");
+            secondIcon.src = gameManager.getPlayer2().getIcon();
         })
     })
     const getSelected = ()=> selected;
 
-    return{selected};
+    return{getSelected};
 })();
 
 function Player(name){
@@ -60,16 +63,37 @@ function Player(name){
     return{name, chooseIcon, getIcon};
 }
 
-const gamePlayers = (()=>{
+const gameManager = (()=>{
+    const mainContainer = document.querySelector(".secondContainer");
+    const gameContainer = document.querySelector(".outerContainer");
+    const startBtn = document.querySelector(".startBtn");
+    startBtn.addEventListener("click", ()=>{
+        startGame.generateBoard();
+        mainContainer.classList.add("hideDisplay");
+        gameContainer.classList.remove("hideDisplay");
+
+    })
     const Player1 = Player("player1");
-    const Player2 = Player("player2");
+    const human = Player("human");
+    const bot = Player("bot");
+    let Player2 = null;
+    bot.chooseIcon("moon.png");
     Player1.chooseIcon("heart.png");
-    Player2.chooseIcon("star.png");
+    human.chooseIcon("star.png");
+
+    const updatePlayer2 = ()=>{
+        if(selectionVisual.getSelected() =="Player"){
+            Player2 = human;
+        }
+        else{
+            Player2 = bot;
+        }
+    }
+
+    const getPlayer2 = ()=> Player2;
 
 
-    startGame.generateBoard();
-
-    return{Player1, Player2};
+    return{Player1, updatePlayer2, getPlayer2};
 
 })();
 
@@ -77,13 +101,13 @@ const gamePlayers = (()=>{
 
 const turnManager = (() =>{
     const turnText = document.querySelectorAll(".turnText");
-    let currentTurn = gamePlayers.Player1;
+    let currentTurn = gameManager.Player1;
     const findTurn = () =>{
-        if(currentTurn == gamePlayers.Player1){
-            currentTurn = gamePlayers.Player2;
+        if(currentTurn == gameManager.Player1){
+            currentTurn = gameManager.getPlayer2();
         }
         else{
-            currentTurn = gamePlayers.Player1;
+            currentTurn = gameManager.Player1;
         }
     }
     const getCurrentTurn = () => currentTurn;

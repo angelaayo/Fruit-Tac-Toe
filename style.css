@@ -1,8 +1,14 @@
 .secondContainer, .outerContainer{
     border: 1px solid blue;
     margin: 0 auto;
-    width: 80%;
+    max-width: 80%;
     padding: 1rem;
+
+}
+.secondContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 
@@ -35,7 +41,7 @@
     text-align: center;
 }
 .choiceContainer{
-    border: 1px solid red;
+    
     grid-column: 1/4;
     display: flex;
     flex-direction: column;
@@ -54,6 +60,11 @@
     border-radius: 1rem;
     padding: 0.5rem 1rem;
 }
+.startBtn{
+    border: 2px solid red;
+    place-self: center;
+    width: fit-content;
+}
 .outerContainer{
     display: grid;
     grid-template-rows: auto auto;
@@ -63,6 +74,7 @@
 .hideDisplay{
     display: none;
 }
+
 
 #gameGrid{
     position: relative;
