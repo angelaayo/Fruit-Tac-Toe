@@ -2,6 +2,7 @@ const startGame = (() =>{
     const MIN_ROUNDS_FOR_WIN = 5;
     const gamePlay = document.querySelector("#gameGrid");
     const generateBoard = () =>{
+        gamePlay.innerHTML = "";
         for(let i=0; i<9; i++){
             const square = document.createElement("div");
             const iconHolder = document.createElement("img");
@@ -33,6 +34,8 @@ const startGame = (() =>{
 
     return{generateBoard};
 })();
+
+
 
 const selectionVisual = (()=>{
     const PlayerBtn = document.querySelectorAll(".choiceCircle");
@@ -66,12 +69,28 @@ function Player(name){
 const gameManager = (()=>{
     const mainContainer = document.querySelector(".secondContainer");
     const gameContainer = document.querySelector(".outerContainer");
+    const backBtn = document.querySelector(".backBtn");
+    const resetBtn = document.querySelector(".resetBtn");
     const startBtn = document.querySelector(".startBtn");
     startBtn.addEventListener("click", ()=>{
         startGame.generateBoard();
         mainContainer.classList.add("hideDisplay");
         gameContainer.classList.remove("hideDisplay");
+        gameManager.turnReset();
+        turnManager.updateTurnVisual();
 
+    });
+    backBtn.addEventListener("click", ()=>{
+        gameContainer.classList.add("hideDisplay");
+        mainContainer.classList.remove("hideDisplay");
+        gameLogic.resetRound();
+    });
+
+    resetBtn.addEventListener("click", ()=>{
+        startGame.generateBoard();
+        gameLogic.resetRound();
+        gameManager.turnReset();
+        turnManager.updateTurnVisual();
     })
     const Player1 = Player("player1");
     const human = Player("human");
@@ -114,6 +133,8 @@ const turnManager = (() =>{
     }
     const getCurrentTurn = () => currentTurn;
 
+    const turnReset = ()=>{currentTurn = gameManager.Player1;}
+    //update so turn visual is synced to whose turn it actually is 
     const updateTurnVisual = ()=>{
         turnText.forEach((turnIcon)=>{
             if(turnIcon.classList.contains("highlight")){
@@ -124,7 +145,7 @@ const turnManager = (() =>{
             }
         })
     }
-    return{findTurn, getCurrentTurn, updateTurnVisual};
+    return{findTurn, getCurrentTurn, updateTurnVisual, turnReset};
 })();
 
 const boardManager = (()=>{
@@ -146,13 +167,14 @@ const gameLogic = (()=>{
     let rounds = 0;
     const updateRounds = ()=>{ rounds++;}
     const getRounds = ()=> rounds;
+    const resetRound = () =>{rounds = 0;}
     const updateGamePad = (index, content)=>{
         gamePad[index] = content;
     }
 
     const getGamePad = () => gamePad;
 
-    return{updateGamePad, getGamePad, updateRounds, getRounds};
+    return{updateGamePad, getGamePad, updateRounds, getRounds, resetRound};
 })();
 
 const winManager = (()=>{
