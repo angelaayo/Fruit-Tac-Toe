@@ -2,6 +2,7 @@ const startGame = (() =>{
     const MIN_ROUNDS_FOR_WIN = 5;
     const gamePlay = document.querySelector("#gameGrid");
     const generateBoard = () =>{
+        turnManager.updateTurnVisual();
         gamePlay.innerHTML = "";
         for(let i=0; i<9; i++){
             const square = document.createElement("div");
@@ -19,7 +20,7 @@ const startGame = (() =>{
                     if(winManager.determineWinner()){
                         //console.log(gameLogic.getGamePad());
                         boardManager.drawWinLine();
-                        //add visual pop up
+                        popUp.show(turnManager.getCurrentTurn().name);
                         return;
                     }
                 }
@@ -35,7 +36,21 @@ const startGame = (() =>{
     return{generateBoard};
 })();
 
+const popUp = (()=>{
+    const overlay = document.querySelector("#overlay");
+    const winMsg = document.querySelector(".winnerTxt");
 
+    const show = (message) =>{
+        winMsg.textContent = `${message} wins the game`;
+        overlay.classList.add("visible");
+    }
+
+    const hide = ()=>{
+        overlay.classList.remove("visible");
+    }
+
+    return{show, hide}
+})();
 
 const selectionVisual = (()=>{
     const PlayerBtn = document.querySelectorAll(".choiceCircle");
@@ -69,32 +84,40 @@ function Player(name){
 const gameManager = (()=>{
     const mainContainer = document.querySelector(".secondContainer");
     const gameContainer = document.querySelector(".outerContainer");
-    const backBtn = document.querySelector(".backBtn");
-    const resetBtn = document.querySelector(".resetBtn");
+    const backBtn = document.querySelectorAll(".backBtn");
+    const resetBtn = document.querySelectorAll(".resetBtn");
     const startBtn = document.querySelector(".startBtn");
     startBtn.addEventListener("click", ()=>{
         startGame.generateBoard();
+        gameLogic.resetRound();
+        gameLogic.createGamePad();
         mainContainer.classList.add("hideDisplay");
         gameContainer.classList.remove("hideDisplay");
-        gameManager.turnReset();
+        turnManager.turnReset();
         turnManager.updateTurnVisual();
 
     });
-    backBtn.addEventListener("click", ()=>{
-        gameContainer.classList.add("hideDisplay");
-        mainContainer.classList.remove("hideDisplay");
-        gameLogic.resetRound();
-    });
-
-    resetBtn.addEventListener("click", ()=>{
-        startGame.generateBoard();
-        gameLogic.resetRound();
-        gameManager.turnReset();
-        turnManager.updateTurnVisual();
+    backBtn.forEach((button)=>{
+        button.addEventListener("click", ()=>{
+            gameContainer.classList.add("hideDisplay");
+            mainContainer.classList.remove("hideDisplay");
+            popUp.hide();
+        })
     })
-    const Player1 = Player("player1");
-    const human = Player("human");
-    const bot = Player("bot");
+
+    resetBtn.forEach((button)=>{
+        button.addEventListener("click", ()=>{
+            startGame.generateBoard();
+            gameLogic.resetRound();
+            gameLogic.createGamePad();
+            turnManager.turnReset();
+            turnManager.updateTurnVisual();
+            popUp.hide();
+        })
+    })
+    const Player1 = Player("Player1");
+    const human = Player("Player2");
+    const bot = Player("Player2");
     let Player2 = human;
     bot.chooseIcon("moon.png");
     Player1.chooseIcon("heart.png");
@@ -123,6 +146,7 @@ const gameManager = (()=>{
 const turnManager = (() =>{
     const turnText = document.querySelectorAll(".turnText");
     let currentTurn = gameManager.Player1;
+    //console.log(gameManager.Player1.name);
     const findTurn = () =>{
         if(currentTurn == gameManager.Player1){
             currentTurn = gameManager.getPlayer2();
@@ -137,11 +161,11 @@ const turnManager = (() =>{
     //update so turn visual is synced to whose turn it actually is 
     const updateTurnVisual = ()=>{
         turnText.forEach((turnIcon)=>{
-            if(turnIcon.classList.contains("highlight")){
-                turnIcon.classList.remove("highlight");
+            if(turnIcon.id == currentTurn.name){
+                turnIcon.classList.add("highlight");
             }
             else{
-                turnIcon.classList.add("highlight");
+                turnIcon.classList.remove("highlight");
             }
         })
     }
@@ -153,7 +177,7 @@ const boardManager = (()=>{
         const winCombo = winManager.determineWinner();
         winCombo.forEach(num =>{
             const square = document.getElementById(num);
-            square.classList.add("win");
+            square.classList.add("highlight");
         })
 
     }
@@ -161,9 +185,12 @@ const boardManager = (()=>{
 })();
 
 const gameLogic = (()=>{
-    let gamePad = [ null, null, null,
+    let gamePad = [];
+    const createGamePad = ()=>{
+        gamePad = [ null, null, null,
                       null, null, null,
-                      null, null, null]
+                      null, null, null];
+    }
     let rounds = 0;
     const updateRounds = ()=>{ rounds++;}
     const getRounds = ()=> rounds;
@@ -174,7 +201,7 @@ const gameLogic = (()=>{
 
     const getGamePad = () => gamePad;
 
-    return{updateGamePad, getGamePad, updateRounds, getRounds, resetRound};
+    return{updateGamePad, getGamePad, updateRounds, getRounds, resetRound, createGamePad};
 })();
 
 const winManager = (()=>{
@@ -195,7 +222,6 @@ const winManager = (()=>{
     const determineWinner = () =>{
         let gameBoard = gameLogic.getGamePad();
         let currentPlayer = turnManager.getCurrentTurn();
-        console.log(currentPlayer);
         const winner = winningCombo.find(combo => combo.every(i => gameBoard[i] == currentPlayer.getIcon()));
 
         return winner;
