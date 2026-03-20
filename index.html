@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>Tic Tac Toe</title>
 </head>
 <body>
@@ -18,7 +21,7 @@
                     <div class="design2">
                         <span class="minimizeBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>minus</title><path fill="currentColor"d="M19,13H5V11H19V13Z" /></svg></span>
                         <span class="screenSizeBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>content-copy</title><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" /></svg></span>
-                        <span class="exitBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>window-close</title><path fill="currentColor" d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" /></svg>
+                        <span class="backBtn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>window-close</title><path fill="currentColor" d="M13.46,12L19,17.54V19H17.54L12,13.46L6.46,19H5V17.54L10.54,12L5,6.46V5H6.46L12,10.54L17.54,5H19V6.46L13.46,12Z" /></svg>
                     </div>
                 </div>
                 <div class="nav2">
@@ -45,14 +48,16 @@
     <div class="secondContainer">
         <div class="header">Fruit Tac Toe</div>
         <div class="selectionContainer">
-            <div class="playerBox">
-                <img class="iconImg" src="heart.png"></img>
-                <div class="playerTxt">Player 1</div>
-            </div>
-            <div class="vsText">VS</div>
-            <div class="playerBox">
-                <img id="player2Img"class="iconImg" src="star.png"></img>
-                <div class="playerTxt">Player 2</div>
+            <div class="iconContainer">
+                <div class="playerBox">
+                    <img class="iconImg" src="heart.png"></img>
+                    <div class="playerTxt">Player 1</div>
+                </div>
+                <div class="vsText">VS</div>
+                <div class="playerBox">
+                    <img id="player2Img"class="iconImg" src="star.png"></img>
+                    <div class="playerTxt">Player 2</div>
+                </div>
             </div>
             <div class="choiceContainer">
                 <div>Player 2:</div>
@@ -68,7 +73,7 @@
         <div class="popUp">
             <div class="winnerTxt">Winner</div>
             <div>Play again?</div>
-            <div>
+            <div class="popUpOptions">
                 <button class="resetBtn">Yes</button>
                 <button class="backBtn">No</button>
             </div>
